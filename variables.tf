@@ -1,4 +1,4 @@
-variable "resource_group" {
+variable "resource_group_name" {
   description = "New RG"
   type        = string
 }
@@ -45,5 +45,15 @@ variable "admin_username" {
 
 variable "admin_password" {
   description = "admin password for VM"
+  type        = string
+}
+
+variable "db_admin_username" {
+  description = "The admin username for the PostgreSQL server"
+  type        = string
+}
+
+variable "db_admin_password" {
+  description = "The admin password for the PostgreSQL server"
   type        = string
 }

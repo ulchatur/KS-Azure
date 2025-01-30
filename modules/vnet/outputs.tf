@@ -38,3 +38,8 @@ output "private_nsg_name" {
   value       = azurerm_network_security_group.private.name
 }
 
+output "private_subnet_id" {
+  description = "Private subnet ID"
+  value       = azurerm_subnet.private.id
+}
+

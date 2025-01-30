@@ -24,17 +24,17 @@ resource "azurerm_network_interface" "main" {
 }
 
 resource "azurerm_virtual_machine" "main" {
-  name                = var.vm_name
-  location            = var.location
-  resource_group_name = var.resource_group_name
+  name                  = var.vm_name
+  location              = var.location
+  resource_group_name   = var.resource_group_name
   network_interface_ids = [azurerm_network_interface.main.id]
-  vm_size                = var.vm_size
+  vm_size               = var.vm_size
 
   storage_os_disk {
-    name              = "ks-vm-os-disk"
-    create_option     = "FromImage"
-    os_type           = "Linux"
-    disk_size_gb      = 30
+    name          = "ks-vm-os-disk"
+    create_option = "FromImage"
+    os_type       = "Linux"
+    disk_size_gb  = 30
   }
 
   storage_image_reference {

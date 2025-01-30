@@ -1,5 +1,10 @@
+resource "azurerm_private_dns_zone" "postgres" {
+  name                = "privatednszone.example.com"
+  resource_group_name = var.resource_group_name
+}
+
 resource "azurerm_resource_group" "main" {
-  name     = var.resource_group
+  name     = var.resource_group_name
   location = var.location
 }
 

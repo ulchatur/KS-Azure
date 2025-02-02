@@ -1,0 +1,44 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "resources": [
+    {
+      "type": "Microsoft.Network/virtualNetworks/subnets",
+      "apiVersion": "2021-05-01",
+      "name": "KS-VNet/ks-private-subnet",
+      "properties": {
+        "addressPrefix": "10.0.2.0/24",
+        "networkSecurityGroup": {
+          "id": "[resourceId('Microsoft.Network/networkSecurityGroups', 'KS-PRIVATE-NSG')]"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.DBforPostgreSQL/servers",
+      "apiVersion": "2017-12-01-preview",  // Updated API version
+      "name": "jfouewhgfuoerhgiuoerhgrer",
+      "location": "Central India",
+      "properties": {
+        "administratorLogin": "ullas",
+        "administratorLoginPassword": "KS-12345678901112",
+        "version": "11",
+        "sslEnforcement": "Enabled",
+        "storageProfile": {
+          "storageMB": 5120,
+          "backupRetentionDays": 7,
+          "geoRedundantBackup": "Disabled"
+        },
+        "sku": {
+          "name": "B_Gen5_1",
+          "tier": "Basic",
+          "capacity": 1,
+          "family": "Gen5"
+        }
+      },
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/virtualNetworks/subnets', 'KS-VNet', 'ks-private-subnet')]"
+      ]
+    }
+  ]
+}
+

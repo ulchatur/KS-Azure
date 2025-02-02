@@ -1,0 +1,80 @@
+{
+  "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+  "resources": [
+    {
+      "type": "Microsoft.Compute/virtualMachines",
+      "apiVersion": "2021-03-01",
+      "location": "Central India",
+      "properties": {
+        "hardwareProfile": {
+          "vmSize": "Standard_B1s"
+        },
+        "osProfile": {
+          "computerName": "ks-ubuntu-vm",
+          "adminUsername": "azureuser",
+          "adminPassword": "YourStrongPassword123!"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "Canonical",
+            "offer": "ubuntu-24_04-lts",
+            "sku": "server",
+            "version": "latest"
+          },
+          "osDisk": {
+            "createOption": "FromImage",
+            "managedDisk": {
+              "storageAccountType": "Standard_LRS"
+            }
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', 'ks-ubuntu-vm-nic')]"
+            }
+          ]
+        }
+      },
+      "name": "ks-ubuntu-vm",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/networkInterfaces', 'ks-ubuntu-vm-nic')]"
+      ]
+    },
+    {
+      "type": "Microsoft.Network/networkInterfaces",
+      "apiVersion": "2021-03-01",
+      "location": "Central India",
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "subnet": {
+                "id": "[resourceId('Microsoft.Network/virtualNetworks/subnets', 'KS-VNet', 'ks-public-subnet')]"
+              },
+              "publicIpAddress": {
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses', 'ks-ubuntu-vm-ip')]"
+              }
+            }
+          }
+        ]
+      },
+      "name": "ks-ubuntu-vm-nic",
+      "dependsOn": [
+        "[resourceId('Microsoft.Network/publicIPAddresses', 'ks-ubuntu-vm-ip')]"
+      ]
+    },
+    {
+      "type": "Microsoft.Network/publicIPAddresses",
+      "apiVersion": "2021-03-01",
+      "location": "Central India",
+      "properties": {
+        "publicIPAllocationMethod": "Dynamic"
+      },
+      "name": "ks-ubuntu-vm-ip"
+    }
+  ]
+}
+
